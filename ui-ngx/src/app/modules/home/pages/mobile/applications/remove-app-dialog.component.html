@@ -26,8 +26,7 @@
 @if (isLoading$ | async) {
   <mat-progress-bar color="warn" mode="indeterminate">
   </mat-progress-bar>
-}
-@if (!(isLoading$ | async)) {
+} @else {
   <div></div>
 }
 <div mat-dialog-content class="flex flex-col gap-4">
