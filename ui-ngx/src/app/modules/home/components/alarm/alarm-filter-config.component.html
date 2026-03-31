@@ -72,61 +72,6 @@
     </div>
   }
 }
-<ng-template #componentMode>
-  @if (buttonMode) {
-    <button color="primary"
-            matTooltip="{{buttonDisplayValue}}"
-            matTooltipPosition="above"
-            mat-stroked-button
-            (click)="toggleAlarmFilterPanel($event)">
-      <mat-icon>filter_list</mat-icon>{{buttonDisplayValue}}
-    </button>
-  } @else {
-    <div class="tb-form-panel tb-alarm-filter-config-component no-padding no-border" [formGroup]="alarmFilterConfigForm">
-      <div class="tb-form-row space-between column-xs">
-        <div class="fixed-title-width" translate>alarm.alarm-status-list</div>
-        <mat-chip-listbox multiple formControlName="statusList">
-          @for (searchStatus of alarmSearchStatuses; track searchStatus) {
-            <mat-chip-option [value]="searchStatus">
-              {{ alarmSearchStatusTranslationMap.get(searchStatus) | translate }}
-            </mat-chip-option>
-          }
-        </mat-chip-listbox>
-      </div>
-      <div class="tb-form-row space-between column-xs">
-        <div class="fixed-title-width" translate>alarm.alarm-severity-list</div>
-        <mat-chip-listbox multiple formControlName="severityList">
-          @for (alarmSeverity of alarmSeverities; track alarmSeverity) {
-            <mat-chip-option [value]="alarmSeverity">
-              {{ alarmSeverityTranslationMap.get(alarmSeverityEnum[alarmSeverity]) | translate }}
-            </mat-chip-option>
-          }
-        </mat-chip-listbox>
-      </div>
-      <div class="tb-form-row column-xs">
-        <div class="fixed-title-width" translate>alarm.alarm-type-list</div>
-        <tb-entity-subtype-list subscriptSizing="dynamic"
-                                formControlName="typeList"
-                                appearance="outline"
-                                [additionalClasses]="['tb-chips', 'flex']"
-                                [entityType]="entityType.ALARM">
-        </tb-entity-subtype-list>
-      </div>
-      <div class="tb-form-row column-xs">
-        <div class="fixed-title-width" translate>alarm.assignee</div>
-        <tb-alarm-assignee-select class="flex-1" inline="true"
-                                  [userMode]="userMode"
-                                  formControlName="assigneeId">
-        </tb-alarm-assignee-select>
-      </div>
-      @if (propagatedFilter) {
-        <mat-slide-toggle class="mat-slide" formControlName="searchPropagatedAlarms">
-          {{ 'alarm.search-propagated-alarms' | translate }}
-        </mat-slide-toggle>
-      }
-    </div>
-  }
-</ng-template>
 <ng-template #alarmFilterPanel>
   <form class="mat-content mat-padding flex flex-col" (ngSubmit)="update()">
     <ng-container *ngTemplateOutlet="alarmFilter"></ng-container>

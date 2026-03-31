@@ -28,8 +28,7 @@
   @if (isLoading$ | async) {
     <mat-progress-bar color="warn" mode="indeterminate">
     </mat-progress-bar>
-  }
-  @if (!(isLoading$ | async)) {
+  } @else {
     <div style="height: 4px;"></div>
   }
   <div mat-dialog-content>
