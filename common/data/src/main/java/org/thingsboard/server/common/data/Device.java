@@ -176,7 +176,7 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
         this.label = label;
     }
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "JSON object with Device Profile Id.")
+    @Schema(description = "JSON object with Device Profile Id. If not provided, the default device profile will be used.")
     public DeviceProfileId getDeviceProfileId() {
         return deviceProfileId;
     }
