@@ -52,9 +52,9 @@ public class JpaRuleChainDetailsDao extends JpaAbstractDao<RuleChainDetailsEntit
     }
 
     @Override
-    public RuleChainDetails save(TenantId tenantId, RuleChainDetails ruleChainDetails) {
+    protected RuleChainDetailsEntity doSave(RuleChainDetailsEntity entity, boolean isNew, boolean flush) {
         try {
-            return super.save(tenantId, ruleChainDetails);
+            return super.doSave(entity, isNew, flush);
         } catch (Exception e) {
             String rootMsg = ExceptionUtils.getRootCauseMessage(e);
             if (StringUtils.contains(rootMsg, "value too long")) {
