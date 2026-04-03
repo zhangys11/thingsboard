@@ -23,12 +23,14 @@ import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.StringUtils;
 import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.rule.RuleChainDetails;
+import org.thingsboard.server.dao.DaoUtil;
 import org.thingsboard.server.dao.model.sql.RuleChainDetailsEntity;
 import org.thingsboard.server.dao.rule.RuleChainDetailsDao;
 import org.thingsboard.server.dao.sql.JpaAbstractDao;
 import org.thingsboard.server.dao.util.SqlDao;
 import org.thingsboard.server.exception.DataValidationException;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -38,6 +40,16 @@ import java.util.UUID;
 public class JpaRuleChainDetailsDao extends JpaAbstractDao<RuleChainDetailsEntity, RuleChainDetails> implements RuleChainDetailsDao {
 
     private final RuleChainDetailsRepository ruleChainDetailsRepository;
+
+    @Override
+    public RuleChainDetails findById(TenantId tenantId, UUID key) {
+        Optional<RuleChainDetailsEntity> entity = getRepository().findById(key);
+        // Detaching to avoid stale version conflict with RuleChainEntity which maps to the same table.
+        // Without detach, a loaded RuleChainDetailsEntity stays in the persistence context and becomes stale
+        // when the same row is updated via RuleChainEntity (e.g. during rule chain import with circular references).
+        entity.ifPresent(e -> getEntityManager().detach(e));
+        return DaoUtil.getData(entity);
+    }
 
     @Override
     public RuleChainDetails save(TenantId tenantId, RuleChainDetails ruleChainDetails) {
